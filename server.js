@@ -26,16 +26,25 @@ const PORT = process.env.PORT || 3002;
 // ROUTES
 // We will write our endpoints here
 // app.get() correlates to axios.get
-app.get('/weather', (req, res) => {
+app.get('/weather', (req, res,next) => {
   try {
     let cityQuery = req.query.searchQuery;
     // res.send(cityQuery);
-    let cityObject = data.find(cityData => cityData.city_name.toUpperCase() === cityQuery.toUpperCase());
 
+
+    let cityObject = data.find(cityData => cityData.city_name.toLowerCase() === cityQuery.toLowerCase())
     
 
-    console.log(cityObject)
-    ;
+    
+    let weatherData = [];
+    cityObject.data.filter((element) => {
+      let forecast = new Forecast(element);
+      weatherData.push(forecast);
+    })
+   
+    res.send(weatherData);
+    
+
   } catch(error) {
     next(error);
   }
@@ -49,7 +58,12 @@ app.get('*',(request,response) => {
   response.send('what you are looking for doesn\'t exist.');
 })
 
-console.log('this is crazy');
+class Forecast {
+  constructor(element){
+    this.forecast = element.datetime;
+    this.description = element.weather.description;
+  }
+}
 
 
 
@@ -61,4 +75,4 @@ console.log('this is crazy');
 
 // listen
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+app.listen(PORT, (weather) => console.log(`listening on port ${PORT}`));

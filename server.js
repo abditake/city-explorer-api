@@ -79,6 +79,29 @@ app.get('/weather', async (request, response) => {
 }
   });
 
+app.get('/movie', async (req,res) =>{
+  try{
+    let movieQueryCity = request.query.movieQueryCity;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MovieApi_Key}&query=${movieQueryCity}`
+    
+    let movieObject = await axios.get(url);
+    
+    console.log(movieObject.data[0]);
+    
+    // let movieObjectData = [];
+
+    // movieObject.data.filter((e) => {
+    //   let selectedMovie = new Movie(e);
+    //   movieObject.push(selectedMovie);
+
+    // })
+    
+    
+  }catch(error){
+    // next(error);
+  }
+});
+
 
 app.get('*', (request, response) => {
   response.send('Page not found: error=you....just kidding');
@@ -89,6 +112,13 @@ class Forecast {
   constructor(element) {
     this.forecast = element.datetime;
     this.description = element.weather.description;
+  }
+}
+
+class Movie {
+  constructor(e) {
+    this.title = e.original_title;
+    this.description = e.overview
   }
 }
 

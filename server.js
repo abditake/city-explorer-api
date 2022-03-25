@@ -6,6 +6,9 @@ require('dotenv').config();
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for server
 
 const express = require('express');
+const getMovies = require('./movie.js');
+const getWeather = require('./weather.js');
+
 const app = express();
 
 // we must include cors if we want to share resources over the web
@@ -57,50 +60,9 @@ const PORT = process.env.PORT || 3002;
 //     next(error);
 //   }
 // });
-app.get('/weather', async (request, response) => {
+app.get('/weather', getWeather);
 
-  try {
-  let searchQueryCity = request.query.searchQueryCity;
-  // let weatherObject = data.find(element => element.city_name.toLowerCase() === citySearchQuery.toLowerCase())
-  let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQueryCity}&key=${process.env.WeatherAPI_Key}&days=3&lat=23&lon=155`;
-  
-  let weatherObject = await axios.get(url);
-  console.log(weatherObject.data);
-  let weatherData = [];
-  weatherObject.data.data.filter((element) => {
-    let selectedCity = new Forecast(element);
-    weatherData.push(selectedCity);
-  });
-  response.send(weatherData);
-  console.log(weatherObject);
-} catch (error) {
-  // next(error); // SEND TO app.use down below
-  console.log(error);
-}
-  });
-
-app.get('/movie', async (req,res) =>{
-  try{
-    let movieQueryCity = request.query.movieQueryCity;
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MovieApi_Key}&query=${movieQueryCity}`
-    
-    let movieObject = await axios.get(url);
-    
-    console.log(movieObject.data[0]);
-    
-    // let movieObjectData = [];
-
-    // movieObject.data.filter((e) => {
-    //   let selectedMovie = new Movie(e);
-    //   movieObject.push(selectedMovie);
-
-    // })
-    
-    
-  }catch(error){
-    // next(error);
-  }
-});
+app.get('/movie',getMovies);
 
 
 app.get('*', (request, response) => {
@@ -108,20 +70,25 @@ app.get('*', (request, response) => {
 })
 
 
-class Forecast {
-  constructor(element) {
-    this.forecast = element.datetime;
-    this.description = element.weather.description;
-  }
-}
+// class Forecast {
+//   constructor(element) {
+//     this.forecast = element.datetime;
+//     this.description = element.weather.description;
+//   }
+// }
 
-class Movie {
-  constructor(e) {
-    this.title = e.original_title;
-    this.description = e.overview
-  }
-}
-
+// class Movie{
+//   constructor(e){
+//     console.log(e);
+//     this.title = e.original_title;
+//     this.description = e.overview;
+//     this.avgVotes = e.vote_average;
+//     this.totalVotes = e.vote_count;
+//     this.popularity = e.popularity;
+//     this.releasedOn = e.released_date;
+//     this.img = e.backdrop_path;
+//   }
+// }
 
 
 // Errors

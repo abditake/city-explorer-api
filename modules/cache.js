@@ -1,6 +1,6 @@
-'use strict';
+// 'use strict';
 
-let cache = {
+// let cache = {
     
-  }
-module.exports = {cache};
+//   }
+// module.exports = {cache};

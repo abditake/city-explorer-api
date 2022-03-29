@@ -11,10 +11,9 @@ const getWeather = require('./weather.js');
 
 const app = express();
 
-// we must include cors if we want to share resources over the web
 // ALLOWS SHARING BETWEEN MULTIPLE COMPUTERS
 const cors = require('cors');
-const axios = require('axios');
+
 app.use(cors());
 
 

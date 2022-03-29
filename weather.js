@@ -2,20 +2,25 @@
 const axios = require('axios');
 
 async function getWeather(request, response){
-
+  try{
+ 
   let searchQueryCity = request.query.searchQueryCity;
-  // let weatherObject = data.find(element => element.city_name.toLowerCase() === citySearchQuery.toLowerCase())
-  let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQueryCity}&key=${process.env.WeatherAPI_Key}&days=3&lat=23&lon=155`;
+
+  let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${searchQueryCity}&key=${process.env.WEATHER_API_KEY}&days=3&lat&lon`;
   
   let weatherObject = await axios.get(url);
-  console.log(weatherObject.data);
+  
   let weatherData = [];
   weatherObject.data.data.filter((element) => {
     let selectedCity = new Forecast(element);
     weatherData.push(selectedCity);
   });
-  response.send(weatherData);
-  console.log(weatherObject);
+  
+  response.send(weatherData);;
+} catch(error){
+  // next(error);
+  console.log(error);
+}
 
 }
 

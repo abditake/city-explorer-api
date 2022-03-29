@@ -4,9 +4,9 @@
 // const express = require('express');
 // const cors = require('cors');
 
-// const getWeather = require('./modules/weather.js');
+// const getWeather = require('./Old-modules/weather.js');
 
-// const getMovie = require('./modules/movie.js');
+// const getMovie = require('./Old-modules/movie.js');
 
 // const app = express();
 // app.use(cors());
@@ -28,7 +28,7 @@
 // }
 
 // function movieHandler(request, response) {
-//   const movieCity = request.query.city;
+//   const movieCity = request.query.movieCity;
 //   getMovie(movieCity)
 //     .then(summaries => response.send(summaries))
 //     .catch((error) => {

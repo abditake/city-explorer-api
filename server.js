@@ -6,8 +6,8 @@ require('dotenv').config();
 // In our servers, we have to use 'require' instead of import. Here we will list the requirements for server
 
 const express = require('express');
-const getMovies = require('./movie.js');
-const getWeather = require('./weather.js');
+const getMovies = require('./Old-modules/movie.js');
+const getWeather = require('./Old-modules/weather.js');
 
 const app = express();
 
